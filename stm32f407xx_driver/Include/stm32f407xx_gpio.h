@@ -1,0 +1,121 @@
+/*
+ * stm32f407xx_gpio.h
+ *
+ *  Created on: 30th  July, 2023
+ *      Author: hieus
+ */
+
+#ifndef INC_STM32F407XX_GPIO_H_
+#define INC_STM32F407XX_GPIO_H_
+
+#include "stm32f407xx.h"
+
+#define RCC_AHB1ENR			(RCC->AHB1ENR)
+#define GPIOA_PCLK_ENABLE 	(RCC_AHB1ENR |= (1<<0))
+#define GPIOB_PCLK_ENABLE 	(RCC_AHB1ENR |= (1<<1))
+#define GPIOC_PCLK_ENABLE 	(RCC_AHB1ENR |= (1<<2))
+#define GPIOD_PCLK_ENABLE 	(RCC_AHB1ENR |= (1<<3))
+#define GPIOE_PCLK_ENABLE 	(RCC_AHB1ENR |= (1<<4))
+#define GPIOA_PCLK_DISABLE 	(RCC_AHB1ENR &= ~(1<<0))
+#define GPIOB_PCLK_DISABLE 	(RCC_AHB1ENR &= ~(1<<1))
+#define GPIOC_PCLK_DISABLE 	(RCC_AHB1ENR &= ~(1<<2))
+#define GPIOD_PCLK_DISABLE 	(RCC_AHB1ENR &= ~(1<<3))
+#define GPIOE_PCLK_DISABLE 	(RCC_AHB1ENR &= ~(1<<4))
+
+/*GPIO Pin Number*/
+#define GPIO_PIN_0		0
+#define GPIO_PIN_1		1
+#define GPIO_PIN_2		2
+#define GPIO_PIN_3		3
+#define GPIO_PIN_4		4
+#define GPIO_PIN_5		5
+#define GPIO_PIN_6		6
+#define GPIO_PIN_7		7
+#define GPIO_PIN_8		8
+#define GPIO_PIN_9		9
+#define GPIO_PIN_10		10
+#define GPIO_PIN_11 	11
+#define GPIO_PIN_12 	12
+#define GPIO_PIN_13		13
+#define GPIO_PIN_14		14
+#define GPIO_PIN_15		15
+
+/*GPIO port mode*/
+#define INPUT_MODE		0	// 00: Input (reset state)
+#define OUTPUT_MODE		1	// 01: General purpose output mode
+#define ALT_MODE		2	// 10: Alternate function mode
+#define ANALOG_MODE		3	// 11: Analog mode
+
+/*GPIO output type*/
+#define PUSHPULL 		0
+#define OPENDRAIN		1
+
+/*GPIO port output speed */
+#define LOWSPD			0	// 00: Low speed
+#define MEDIUMSPD		1	// 01: Medium speed
+#define HIGHSPD			2	// 10: High speed
+#define VERYHIGHSPD		3	// 11: Very high speed
+
+/*GPIO port pull-up,pull-down*/
+#define NOPULL			0
+#define PULLUP			1
+#define PULLDOWN		2
+
+typedef struct GPIO_Config{
+	uint8_t pinNumber;	/* GPIO Pin Number*/
+	uint8_t pinMode; 	/* GPIO port mode*/
+	uint8_t pinSpeed;	/* GPIO port output speed*/
+	uint8_t ouputType;	/* GPIO output type*/
+	uint8_t pullUpDown; /* GPIO port pull-up,pull-down*/
+	uint8_t altMode;
+}GPIO_Config_t;
+
+typedef struct GPIO_Handle{
+	GPIOx_RegDef_t *pGPIOx; 	/* GPIO register (Pointer to GPIOx address)*/
+	GPIO_Config_t pinConfig; 	/* GPIO configuration (pin number, mode...)*/
+}GPIO_Handle_t;
+
+/**************** GPIO API ******************/
+
+/**
+	* GPIO_ClockControl
+	* @brief  -	Enable/Disable clock for a port
+	* @param  -	*pGPIOx : GPIO Port Base address marco (GPIOA -> GPIOE)
+	* @param  -	IsEnable : ENABLE(1) or DISABLE(0) marco
+	* @retval -	void
+	*/
+void GPIO_ClockControl(GPIOx_RegDef_t *pGPIOx, uint8_t IsEnable);
+
+/**
+	* GPIO_Init
+	* @brief  -	Config specific mode for a pin (mode, speed, output type, altmode...)
+	* @param  -	*pGPIOHanle : GPIO Port Base address & pin number
+	* @param  -
+	* @param  -
+	* @retval -	void
+	*/
+void GPIO_Init(GPIO_Handle_t* pGPIOHandle);
+
+/**
+	* GPIO_DeInit
+	* @brief  -
+	* @param  -	*pGPIOx : GPIO Port Base address
+	* @param  -
+	* @param  -
+	* @retval -	void
+	*/
+void GPIO_DeInit(GPIOx_RegDef_t *pGPIOx);
+
+/*Read and write data*/
+uint8_t GPIO_ReadFromPin(GPIOx_RegDef_t *pGPIOx, uint8_t pinNumber);
+uint16_t GPIO_ReadFromPort(GPIOx_RegDef_t *pGPIOx);
+void GPIO_WriteToPin(GPIOx_RegDef_t *pGPIOx, uint8_t pinNumber);
+void GPIO_WriteToPort(GPIOx_RegDef_t *pGPIOx);
+void GPIO_TogglePin(GPIOx_RegDef_t *pGPIOx, uint8_t pinNumber);
+
+/*Interrupt handling*/
+void GPIO_IRQConfig();
+void GPIO_IRQHandling();
+
+
+#endif /* INC_STM32F407XX_GPIO_H_ */
