@@ -23,6 +23,7 @@
 #define GPIOE_PCLK_DISABLE 	(RCC_AHB1ENR &= ~(1<<4))
 
 /*GPIO Pin Number*/
+#define AVAILABLE_PIN	15 /*Avaliable pins of each port*/
 #define GPIO_PIN_0		0
 #define GPIO_PIN_1		1
 #define GPIO_PIN_2		2
@@ -75,12 +76,12 @@ typedef struct GPIO_Handle{
 	GPIO_Config_t pinConfig; 	/* GPIO configuration (pin number, mode...)*/
 }GPIO_Handle_t;
 
-/**************** GPIO API ******************/
+/**************** GPIO APIs ******************/
 
 /**
 	* GPIO_ClockControl
-	* @brief  -	Enable/Disable clock for a port
-	* @param  -	*pGPIOx : GPIO Port Base address marco (GPIOA -> GPIOE)
+	* @brief  -	Enable/Disable clock for a port (RCC register)
+	* @param  -	*pGPIOx : GPIO Port Base address marco (GPIOA -> GPIOE marco)
 	* @param  -	IsEnable : ENABLE(1) or DISABLE(0) marco
 	* @retval -	void
 	*/
@@ -88,10 +89,8 @@ void GPIO_ClockControl(GPIOx_RegDef_t *pGPIOx, uint8_t IsEnable);
 
 /**
 	* GPIO_Init
-	* @brief  -	Config specific mode for a pin (mode, speed, output type, altmode...)
-	* @param  -	*pGPIOHanle : GPIO Port Base address & pin number
-	* @param  -
-	* @param  -
+	* @brief  -	Config specific mode for a pin (mode, speed, output type, input, altmode etc..)
+	* @param  -	*pGPIOHandle : specify GPIO Port Base address & Pin number
 	* @retval -	void
 	*/
 void GPIO_Init(GPIO_Handle_t* pGPIOHandle);
@@ -106,11 +105,50 @@ void GPIO_Init(GPIO_Handle_t* pGPIOHandle);
 	*/
 void GPIO_DeInit(GPIOx_RegDef_t *pGPIOx);
 
-/*Read and write data*/
+/**
+	* GPIO_ReadFromPin
+	* @brief  -	Read input value of a pin
+	* @param  -	*pGPIOx : point to GPIO Port Base address
+	* @param  -	pinNumber : specify a pin number	
+	* @retval -	value of the corresponding I/O port (return a bit of GPIOx_IDR - 1 or 0 only)
+	*/
 uint8_t GPIO_ReadFromPin(GPIOx_RegDef_t *pGPIOx, uint8_t pinNumber);
+
+/**
+	* GPIO_ReadFromPort
+	* @brief  -	Read input value of all pin in a port
+	* @param  -	*pGPIOx : point to GPIO Port Base address
+	* @param  -	pinNumber : specify a pin number	
+	* @retval -	value of the corresponding port (return entire GPIOx_IDR - 16 bit)
+	*/
 uint16_t GPIO_ReadFromPort(GPIOx_RegDef_t *pGPIOx);
-void GPIO_WriteToPin(GPIOx_RegDef_t *pGPIOx, uint8_t pinNumber);
-void GPIO_WriteToPort(GPIOx_RegDef_t *pGPIOx);
+
+/**
+	* GPIO_WriteToPin
+	* @brief  -	Set/reset bit of a pin
+	* @param  -	*pGPIOx : point to GPIO Port Base address
+	* @param  -	pinNumber : specify a pin number	
+	* @param  -	inVal : SET/RESET value		
+	* @retval -	void
+	*/
+void GPIO_WriteToPin(GPIOx_RegDef_t *pGPIOx, uint8_t pinNumber, uint8_t inVal);
+
+/**
+	* GPIO_WriteToPort
+	* @brief  -	Set/reset bit of entire a port
+	* @param  -	*pGPIOx : point to GPIO Port Base address	
+	* @param  -	inVal : SET/RESET value		
+	* @retval -	void
+	*/
+void GPIO_WriteToPort(GPIOx_RegDef_t *pGPIOx, uint8_t inVal);
+
+/**
+	* GPIO_TogglePin
+	* @brief  -	Toggle bit a pin
+	* @param  -	*pGPIOx : point to GPIO Port Base address
+	* @param  -	pinNumber : specify a pin number	
+	* @retval -	void
+	*/
 void GPIO_TogglePin(GPIOx_RegDef_t *pGPIOx, uint8_t pinNumber);
 
 /*Interrupt handling*/
