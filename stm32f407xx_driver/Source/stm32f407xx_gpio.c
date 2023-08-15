@@ -103,8 +103,35 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 	pGPIOHandle->pGPIOx->OSPEEDR |= spdRegVal;
 }
 
+/**
+	* GPIO_DeInit
+	* @brief  -	Reset peripheral using RCC AHB1 peripheral reset register
+	* @param  -	*pGPIOHandle : specify GPIO Port Base address
+	* @retval -	void
+	*/
 void GPIO_DeInit(GPIOx_RegDef_t *pGPIOx)
 {
+	/*casting to integer value for base address comparsion*/
+	uint32_t baseAddr = (uint32_t) pGPIOx;
+
+	switch (baseAddr)
+	{
+	case GPIOA_BASEADDR:
+		GPIOA_RESET_REG;
+		break;
+	case GPIOB_BASEADDR:
+		GPIOB_RESET_REG;
+		break;
+	case GPIOC_BASEADDR:
+		GPIOC_RESET_REG;
+		break;
+	case GPIOD_BASEADDR:
+		GPIOD_RESET_REG;
+		break;
+	case GPIOE_BASEADDR:
+		GPIOA_RESET_REG
+		break;
+	}
 }
 
 /**

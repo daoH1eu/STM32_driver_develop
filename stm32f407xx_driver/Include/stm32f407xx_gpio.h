@@ -22,6 +22,12 @@
 #define GPIOD_PCLK_DISABLE 	(RCC_AHB1ENR &= ~(1<<3))
 #define GPIOE_PCLK_DISABLE 	(RCC_AHB1ENR &= ~(1<<4))
 
+#define GPIOA_RESET_REG		do{ /*Set bit to reset*/(RCC->APB1RSTR |= 1<<0); /*Clear bit set*/(RCC->APB1RSTR &= ~(1<<0)); } while (0)
+#define GPIOB_RESET_REG		do{ /*Set bit to reset*/(RCC->APB1RSTR |= 1<<1); /*Clear bit set*/(RCC->APB1RSTR &= ~(1<<1)); } while (0)
+#define GPIOC_RESET_REG		do{ /*Set bit to reset*/(RCC->APB1RSTR |= 1<<2); /*Clear bit set*/(RCC->APB1RSTR &= ~(1<<2)); } while (0)
+#define GPIOD_RESET_REG		do{ /*Set bit to reset*/(RCC->APB1RSTR |= 1<<3); /*Clear bit set*/(RCC->APB1RSTR &= ~(1<<3)); } while (0)
+#define GPIOE_RESET_REG		do{ /*Set bit to reset*/(RCC->APB1RSTR |= 1<<4); /*Clear bit set*/(RCC->APB1RSTR &= ~(1<<4)); } while (0)
+
 /*GPIO Pin Number*/
 #define AVAILABLE_PIN	15 /*Avaliable pins of each port*/
 #define GPIO_PIN_0		0
@@ -90,17 +96,15 @@ void GPIO_ClockControl(GPIOx_RegDef_t *pGPIOx, uint8_t IsEnable);
 /**
 	* GPIO_Init
 	* @brief  -	Config specific mode for a pin (mode, speed, output type, input, altmode etc..)
-	* @param  -	*pGPIOHandle : specify GPIO Port Base address & Pin number
+	* @param  -	*pGPIOHandle : specify GPIO Port Base address
 	* @retval -	void
 	*/
 void GPIO_Init(GPIO_Handle_t* pGPIOHandle);
 
 /**
 	* GPIO_DeInit
-	* @brief  -
-	* @param  -	*pGPIOx : GPIO Port Base address
-	* @param  -
-	* @param  -
+	* @brief  -	Reset peripheral using RCC AHB1 peripheral reset register
+	* @param  -	*pGPIOHandle : specify GPIO Port Base address
 	* @retval -	void
 	*/
 void GPIO_DeInit(GPIOx_RegDef_t *pGPIOx);
