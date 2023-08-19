@@ -1,8 +1,9 @@
-/*
- * stm32f407xx_gpio.c
- *
- *  Created on: 30th  July, 2023
- *      Author: hieus
+/**
+ ******************************************************************************
+ * @file           : stm32f407xx_gpio.c
+ * @author         : daoH1eu
+ * @brief          : GPIO driver API
+ ******************************************************************************
  */
 
 #include "stm32f407xx_gpio.h"
@@ -129,7 +130,7 @@ void GPIO_DeInit(GPIOx_RegDef_t *pGPIOx)
 		GPIOD_RESET_REG;
 		break;
 	case GPIOE_BASEADDR:
-		GPIOA_RESET_REG
+		GPIOA_RESET_REG;
 		break;
 	}
 }

@@ -1,8 +1,9 @@
-/*
- * stm32f407xx_gpio.h
- *
- *  Created on: 30th  July, 2023
- *      Author: hieus
+/**
+ ******************************************************************************
+ * @file           : stm32f407xx_gpio.h
+ * @author         : daoH1eu
+ * @brief          : GPIO driver API
+ ******************************************************************************
  */
 
 #ifndef INC_STM32F407XX_GPIO_H_

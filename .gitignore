@@ -61,3 +61,4 @@ Src/*
 .cproject
 Startup/*
 Debug/*
+*.launch

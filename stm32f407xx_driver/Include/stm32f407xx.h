@@ -1,8 +1,9 @@
-/*
- * stm32f407xx.h
- *
- *  Created on: 30th  July, 2023
- *      Author: hieus
+/**
+ ******************************************************************************
+ * @file           : stm32f407xx.h
+ * @author         : daoH1eu
+ * @brief          : Definding base address of peripherals
+ ******************************************************************************
  */
 
 #ifndef INC_STM32F407XX_H_
